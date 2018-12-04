@@ -36,6 +36,8 @@ private:
 	unsigned int mOctaves;
 	float mFrequency, mPersistance;
 	float mPitchAngle;
+	float mYawAngle;
+	float mRollAngle;
 
 public:
 	
@@ -45,6 +47,12 @@ public:
 	~Terrain();
 	void generateNoise(void);
 	void drawTerrain(sf::RenderWindow & window);
+	void Terrain::incPitch();
+	void Terrain::decPitch();
+	void Terrain::incRoll();
+	void Terrain::decRoll();
+	void Terrain::incYaw();
+	void Terrain::decYaw();
 
 private:
 	sf::Color getColor(const float value);

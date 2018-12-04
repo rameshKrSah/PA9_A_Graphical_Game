@@ -13,12 +13,14 @@ Terrain::Terrain(void)
 Terrain::Terrain(unsigned int width, unsigned int height, unsigned int octaves, float frequency, float persistance)
 {
 	mWindowSize = { width, height };
-	mHeight = height + 300;
-	mWidth = width + 200;
+	mHeight = height;// +300;
+	mWidth = width;// +200;
 	mOctaves = octaves;
 	mFrequency = frequency;
 	mPersistance = persistance;
-	mPitchAngle = 60.0f;
+	mPitchAngle = 64.0f;
+	mRollAngle = -4.0f;
+	mYawAngle = 18.0f;
 
 	// create the texture to store the noise value //
 	mNoiseTexture.create(mWidth, mHeight);
@@ -108,12 +110,70 @@ void Terrain::setSprite()
 	// set the texture to the sprite
 	mSprite_3d.setTexture(mNoiseTexture);
 
+	// set the origin and position of the sprite
+
+	std::cout << mSprite_3d.getLocalBounds().width / 2.0f << " " << mSprite_3d.getLocalBounds().height / 2.0f << std::endl;
+	std::cout << (mWindowSize / 2u).x << " " << (mWindowSize / 2u).y << std::endl;
+	
 	// set the origin and position of the sprite 
 	mSprite_3d.setOrigin(sf::Vector2f(mSprite_3d.getLocalBounds().width, mSprite_3d.getLocalBounds().height) / 2.f);
-	mSprite_3d.setPosition(sf::Vector2f(mWindowSize / 2u));
+
+	mSprite_3d.setPosition(sf::Vector2f(mWindowSize.x / 2.0f , mWindowSize.y / 2.0f + 100));
 	
 	// set the angle of rotation along the X-axis
-	mSprite_3d.setPitch(mPitchAngle);
+	mSprite_3d.setPitch(60.0f);
+
+	// set the angle of rotation along the Y axis
+	//mSprite_3d.setYaw(mYawAngle);
+
+	// set the angle of rotation along the Z axis
+	//mSprite_3d.setRoll(mRollAngle);
+}
+
+void Terrain::incPitch()
+{
+	mSprite_3d.setPitch(mSprite_3d.getPitch() + 2.0f);
+	//mSprite_3d.setPosition(mSprite_3d.getPosition().x + 2.0f, mSprite_3d.getPosition().y + 2.0f);
+	std::cout << "Pitch angle " << mSprite_3d.getPitch() << std::endl;
+	std::cout << "Position" << mSprite_3d.getPosition().x << " " << mSprite_3d.getPosition().y << std::endl;
+}
+
+void Terrain::decPitch()
+{
+	mSprite_3d.setPitch(mSprite_3d.getPitch() - 2.0f);
+	//mSprite_3d.setPosition(mSprite_3d.getPosition().x - 2.0f, mSprite_3d.getPosition().y - 2.0f);
+	std::cout << "Position" << mSprite_3d.getPosition().x << " " << mSprite_3d.getPosition().y << std::endl;
+	std::cout << "Pitch angle " << mSprite_3d.getPitch() << std::endl;
+}
+
+
+void Terrain::incRoll()
+{
+	//mSprite_3d.setRoll(mSprite_3d.getRoll() + 2.0f);
+	//std::cout << "Roll angle " << mSprite_3d.getRoll() << std::endl;
+	mSprite_3d.setOrigin(mSprite_3d.getOrigin().x + 2.0f, mSprite_3d.getOrigin().y + 2.0f);
+	std::cout << "Origin" << mSprite_3d.getOrigin().x << " " << mSprite_3d.getOrigin().y << std::endl;
+}
+
+void Terrain::decRoll()
+{
+//	mSprite_3d.setRoll(mSprite_3d.getRoll() - 2.0f);
+//	std::cout << "Roll angle " << mSprite_3d.getRoll() << std::endl;
+	mSprite_3d.setOrigin(mSprite_3d.getOrigin().x - 2.0f, mSprite_3d.getOrigin().y - 2.0f);
+	std::cout << "Origin" << mSprite_3d.getOrigin().x << " " << mSprite_3d.getOrigin().y << std::endl;
+}
+
+
+void Terrain::incYaw()
+{
+	mSprite_3d.setYaw(mSprite_3d.getYaw() + 2.0f);
+	std::cout << "Yaw angle " << mSprite_3d.getYaw() << std::endl;
+}
+
+void Terrain::decYaw()
+{
+	mSprite_3d.setYaw(mSprite_3d.getYaw() - 2.0f);
+	std::cout << "Yaw angle " << mSprite_3d.getYaw() << std::endl;
 }
 
 void Terrain::drawTerrain(sf::RenderWindow & window)

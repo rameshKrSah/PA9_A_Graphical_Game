@@ -26,34 +26,68 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
+#include <SFML/Audio.hpp>
 #include <ctime>
+#include <iostream>
 
 #include "Points.h"
 #include "Terrain.h"
+#include "Background.h"
+#include "Tree.h"
 
 unsigned static int const width = 1000;
 unsigned static int const height = 600;
+#define LOAD_FAILURE		-999
+
+void backgroundMusicPlay(sf::Music & sound)
+{
+	static bool loaded = false;
+
+	if (!loaded)
+	{
+		sound.setLoop(true);
+		sound.play();
+		loaded = true;
+	}
+}
+
+void backgroundMusicStop(sf::Music & sound)
+{
+	sound.stop();
+}
 
 int main() 
 {
+	// object of the Terrain class
 	Terrain terrain(width, height, 6, 2.0, 0.4);
+
 	// generate the noise for the terrain 
 	terrain.generateNoise();
 	
+	// object of the background class
+	Background background;
+
+	// Tree objects
+	std::vector <Tree> trees;
+
+	// load the blue sky texture 
+	if (!background.loadBackground("blue_sky.jpg"))
+	{
+		std::cout << "ERROR: background load failed " << std::endl;
+		return LOAD_FAILURE;
+	}
+
+	// background music
+	sf::Music music;
+	if (!music.openFromFile("background_2.wav"))
+	{
+		return LOAD_FAILURE;
+	}
+
 	// create the window 
 	sf::RenderWindow window(sf::VideoMode(width, height), "Simplex Noise 2D visualisation", sf::Style::Close);
 	sf::View view;
 	
-	// load the blue sky texture 
-	sf::Texture texture;
-	if (!texture.loadFromFile("blue_sky.jpg"))
-		return -68;
-
-	// create the sprite fromt the blue sky texture 
-	sf::Sprite sprite;
-	sprite.setTexture(texture);
-	sprite.setOrigin(0.0f, 0.0f);
-
 	// game loop //
 	while (window.isOpen()) 
 	{
@@ -63,17 +97,74 @@ int main()
 			if (event.type == sf::Event::Closed) 
 			{
 				window.close();
+				backgroundMusicStop(music);
+			}
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				// get the cursor position relative to the window 
+				sf::Vector2i start_coordinates = sf::Mouse::getPosition(window);
+
+				// create a new tree and set its parameters
+				Tree newTree(float(start_coordinates.x), float(start_coordinates.y));
+				
+				// insert the tree into the vector
+				trees.push_back(newTree);
+
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				{
+					terrain.incPitch();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				{
+					terrain.decPitch();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				{
+					terrain.incYaw();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				{
+					terrain.decYaw();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				{
+					terrain.incRoll();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					terrain.decRoll();
+				}
 			}
 		}
 		
 		// clear the window 
 		window.clear();
 		
+		// play the background score
+		backgroundMusicPlay(music);
+
 		// draw the sky background
-		window.draw(sprite);
+		window.draw(background);
 
 		// draw the noise on the window
 		window.draw(terrain);
+
+		// draw the tree
+		for (int i = 0; i < trees.size(); i++)
+		{
+			trees[i].Render(window);
+		}
+
 
 		// show everything on the window
 		window.display();
@@ -81,3 +172,30 @@ int main()
 
 	return EXIT_SUCCESS;
 }
+
+
+/*
+void r()
+{
+	std::vector<sf::Vertex> vertices;
+	int wi = 5;
+	int he = 10;
+
+	vertices.push_back(sf::Vertex(sf::Vector2f(10, 20), sf::Color::Green));
+	vertices.push_back(sf::Vertex(sf::Vector2f(10 + wi, 20), sf::Color::Green));
+	vertices.push_back(sf::Vertex(sf::Vector2f(10, 20 + he), sf::Color::Green));
+	vertices.push_back(sf::Vertex(sf::Vector2f(10 + wi, 20 + he), sf::Color::Green));
+
+	
+	int size = vertices.size();
+	static int i = 0;
+	while (size)
+	{
+		window.draw(&vertices[i], 4, sf::Quads);
+		size -= 4;
+		i += 4;
+	}
+
+}
+*/
+
