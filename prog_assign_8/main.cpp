@@ -1,7 +1,13 @@
 /*
+	----------------- TEAM MEMBERS ---------------------
+	Mitch Boesel
+	Benjamin 
+	Michaela Bayerlova
+	Ramesh Kumar Sah
+	
 	@brief:		A graphical Game 
 	@date:		Nov, 2018
-
+	
 	1. Terrain in SFML using Simplex Noise function from here, https://github.com/PawelWorwa/SimplexNoise 
 	Planning to use the 2D terrain generated using the  simplex noise as the terrian for the game. The other option is to use Perlin Noise as the Noise function.
 	
@@ -179,6 +185,11 @@ int main()
 				{
 					window.close();
 					backgroundMusicStop(music);
+				}
+
+				if (event.key.code == sf::Keyboard::BackSpace)
+				{
+					trees.clear();
 				}
 
 				if (event.key.code == sf::Keyboard::W)		//sf::Mouse::Button::Left)
