@@ -1,31 +1,74 @@
 #include "Tree.h"
 
+int Tree::getNewlevel()
+{
+	int temp = 0;
+	std::srand(std::time(nullptr)); // use current time as seed for random generator
+
+	if (treeHealth == HEALTHY)
+	{
+		temp = std::rand() % 10 + 1;
+
+		if (temp < 5)
+		{
+			temp += 5;
+		}
+	}
+	else if (treeHealth == UNHEALTHY)
+	{
+		temp = std::rand() % 3 + 2;
+		if (temp < 2)
+		{
+			temp += 3;
+		}
+	}
+
+	return temp;
+}
+
 Tree::Tree(const float x_value, const float y_value)
 {
 	std::srand(std::time(nullptr)); // use current time as seed for random generator
 
-	int health = std::rand() % 2 + 1;
-	cout << health << endl;
+	int temp = std::rand() % 2 + 1;
 
 	this->setStartLocation(x_value, y_value);
 	this->setWidth(6);
-	this->setHealth((_TREE_HEALTH_)health);
+	this->setHealth((_TREE_HEALTH_)temp);
 
-	if (health == HEALTHY)
+	if (temp == HEALTHY)
 	{
 		this->setColorStem(sf::Color::Green);
 		this->setColorFLower(sf::Color(240, 0, 240));
 		this->setHeight(40 + (std::rand() % (120 - 100 + 1)));
+		temp = std::rand() % 10 + 1;
+		
+		if (temp < 5)
+		{
+			temp += 5;
+		}
+
+		cout << "Level " << temp << endl;
+		this->setLoop(temp);
 	}
-	else if (health == UNHEALTHY)
+	else if (temp == UNHEALTHY)
 	{
 		// brown color
 		this->setColorStem(sf::Color(100, 115, 50));
 		this->setColorFLower(sf::Color(48, 48, 37));
 		this->setHeight(20 + (std::rand() % (21)));
+
+		temp = std::rand() % 3 + 2;
+		if (temp < 2)
+		{
+			temp += 3;
+		}
+
+		cout << "Level " << temp << endl;
+		this->setLoop(temp);
 	}
 	
-	this->setLoop(std::rand() % 4 + 2);
+	this->currentLevel = 1;
 	this->setLAngle(25 + (std::rand() % (35 - 25 + 1)));
 	this->setRAngle(35 + (std::rand() % (45 - 35 + 1)));
 }
@@ -135,6 +178,7 @@ void Tree::setStartLocation(double x, double y)
 void Tree::setLoop(int AOccured)
 {
 	NumberLoop = AOccured;
+
 }
 
 int Tree::getLoop()
@@ -149,6 +193,18 @@ void Tree::setHealth(int Healthlvl, int index)
 
 void Tree::setHealth(_TREE_HEALTH_ h)
 {
+	if (h == HEALTHY)
+	{
+		this->setColorStem(sf::Color::Green);
+		this->setColorFLower(sf::Color(240, 0, 240));
+	}
+	else if (h == UNHEALTHY)
+	{
+		// brown color
+		this->setColorStem(sf::Color(100, 115, 50));
+		this->setColorFLower(sf::Color(48, 48, 37));
+	}
+
 	treeHealth = h;
 }
 
@@ -207,7 +263,7 @@ void Tree::drawTree(int iteration, const sf::Vector2f& rootPosition, double root
 	//Health = TestHEandUN();
 	//TestStep();
 	
-	if (iteration == getLoop() /*|| function = false*/)
+	if (iteration == currentLevel /*|| function = false*/)
 	{
 	// 10 times simulation over and flowers blossom
 	//if true then done
@@ -279,6 +335,7 @@ void Tree::drawTree(int iteration, const sf::Vector2f& rootPosition, double root
 	drawTree(iteration+1,sf::Vector2f(x, y), rootRotation - RAngle, window, false);
 
 }
+
 void Tree::Render(sf::RenderWindow& window)
 {
 	sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(Width, Length));
@@ -306,6 +363,9 @@ void Tree::GrowFlowers(const sf::Vector2f& rootPosition, sf::RenderWindow& windo
 	circle.setPosition(sf::Vector2f(rootPosition.x - circle.getRadius(), rootPosition.y - circle.getRadius()));
 	window.draw(circle);
 }
+
+
+/*
 //Rand generator for healthy and unhealthy variable ie angle height width and color;
 int Tree::TestHEandUN()
 {
@@ -326,6 +386,7 @@ int Tree::TestHEandUN()
 	}
 	return x;
 }
+
 void Tree::TestStep()
 {
 	cout << "Loop Value" << endl;
@@ -344,4 +405,15 @@ void Tree::TestStep()
 		}
 	}
 	setLoop(x);
+}
+*/
+
+
+void Tree::incremenetLevel()
+{
+	cout << currentLevel << "-------" << NumberLoop << endl;
+	if (this->currentLevel != this->NumberLoop)
+	{
+		this->currentLevel++;
+	}
 }

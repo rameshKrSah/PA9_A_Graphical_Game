@@ -34,6 +34,7 @@
 #include "Terrain.h"
 #include "Background.h"
 #include "Tree.h"
+#include "TreeSimClicks.h"
 
 unsigned static int const width = 1000;
 unsigned static int const height = 600;
@@ -58,6 +59,17 @@ void backgroundMusicStop(sf::Music & sound)
 
 int main() 
 {
+	int start = 1;
+	int rules = 0;
+	int play = 0;
+
+	// clock 
+	sf::Clock clock;
+	sf::Time t1 = clock.restart();
+
+	// Tree stats object
+	TreeStats treeStats;
+
 	// object of the Terrain class
 	Terrain terrain(width, height, 6, 2.0, 0.4);
 
@@ -83,6 +95,46 @@ int main()
 	{
 		return LOAD_FAILURE;
 	}
+
+
+	// menu part 
+	sf::Font font;
+	if (!font.loadFromFile("SimplySquare.ttf"))
+	{
+		std::cout << "Error loading file" << std::endl;
+		return LOAD_FAILURE;
+	}
+
+	//Main Menu
+	sf::Text text1, text2, text3, text4;
+	
+	
+	text1.setFont(font);
+	text1.setString("Welcome to TREE SIMULATOR Cs 122");
+	text1.setCharacterSize(32);
+	text1.setFillColor(sf::Color::Red);
+	text1.setStyle(sf::Text::Underlined);
+
+	text2.setFont(font);
+	text2.setLineSpacing(3);
+	text2.setString("\nMain Menu\n");
+	text2.setCharacterSize(24);
+	text2.setFillColor(sf::Color::White);
+	text2.setStyle(sf::Text::Underlined);
+	text2.setLineSpacing(2);
+
+
+	text4.setFont(font);
+	text4.setString("\n \n \n \n!!!Game Rules!!! \n\nLeft click on the terrain to plant a tree. \n\nIt will grow to a little plant and eventually to a tree. \n\nKeys to use: \n\nW  To  water \n\nF  To  fertilize");
+	text4.setCharacterSize(24);
+	text4.setFillColor(sf::Color::White);
+
+	text3.setFont(font);
+	text3.setLineSpacing(1);
+	text3.setString(" \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nTo Play : press Space   \n\nTo Exit : press Enter");
+	text3.setCharacterSize(24);
+	text3.setFillColor(sf::Color::White);
+
 
 	// create the window 
 	sf::RenderWindow window(sf::VideoMode(width, height), "Simplex Noise 2D visualisation", sf::Style::Close);
@@ -110,9 +162,62 @@ int main()
 				
 				// insert the tree into the vector
 				trees.push_back(newTree);
-
 			}
 
+
+			if (event.type == sf::Event::KeyPressed)		//sf::Event::MouseButtonPressed)
+			{
+				// menu 
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					start = 0;
+					play = 1;
+				}
+
+				// menu 
+				if (event.key.code == sf::Keyboard::Enter)
+				{
+					window.close();
+					backgroundMusicStop(music);
+				}
+
+				if (event.key.code == sf::Keyboard::W)		//sf::Mouse::Button::Left)
+				{
+					treeStats.incWater();
+					cout << "You Watered the Tree!" << endl;
+				}
+
+				if (event.key.code == sf::Keyboard::F)		//sf::Mouse::Button::Right)
+				{
+					treeStats.incFert();
+					cout << "You Fertilized the Tree" << endl;
+				}
+			}
+
+			// get the elapsed time to grow the trees
+			t1 = clock.getElapsedTime();
+			if (t1.asMilliseconds() >= 2000)
+			{
+				_TREE_HEALTH_ health = (_TREE_HEALTH_)treeStats.calcHealth();
+				
+				cout << "Health " << health << endl;
+				for (int i = 0; i < trees.size(); i++)
+				{
+					trees[i].setHealth(health);
+
+					if (health == HEALTHY)
+					{
+						//trees[i].setLoop(trees[i].getNewlevel());
+						trees[i].incremenetLevel();
+					}
+
+				}
+				
+				//Bens tree function
+				t1 = clock.restart();
+			}
+
+			/*
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -145,26 +250,38 @@ int main()
 					terrain.decRoll();
 				}
 			}
+			*/
 		}
 		
 		// clear the window 
 		window.clear();
 		
+		//show menu
+		if (start == 1)
+		{
+			window.draw(text1);
+			window.draw(text2);
+			window.draw(text4);
+			window.draw(text3);
+		}
+
 		// play the background score
 		backgroundMusicPlay(music);
 
-		// draw the sky background
-		window.draw(background);
-
-		// draw the noise on the window
-		window.draw(terrain);
-
-		// draw the tree
-		for (int i = 0; i < trees.size(); i++)
+		if (play == 1)
 		{
-			trees[i].Render(window);
-		}
+			// draw the sky background
+			window.draw(background);
 
+			// draw the noise on the window
+			window.draw(terrain);
+
+			// draw the tree
+			for (int i = 0; i < trees.size(); i++)
+			{
+				trees[i].Render(window);
+			}
+		}
 
 		// show everything on the window
 		window.display();

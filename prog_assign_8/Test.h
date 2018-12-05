@@ -3,6 +3,10 @@
 #include <iostream>
 #include "Background.h"
 
+using std::cout;
+using std::endl;
+using std::cin;
+
 class Test
 {
 public:
@@ -10,7 +14,12 @@ public:
 	~Test();
 
 	void backgroundImageLoadTest();
-	void terrainGenrationTest();
 
+	// Ben's Test case
+	int TestHEandUN();
+	int TestStep();
+	int TestX();
+	int TestY();
+	int TestHeight();
+	int TestWidth();
 };
-

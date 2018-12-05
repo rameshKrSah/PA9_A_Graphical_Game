@@ -112,8 +112,8 @@ void Terrain::setSprite()
 
 	// set the origin and position of the sprite
 
-	std::cout << mSprite_3d.getLocalBounds().width / 2.0f << " " << mSprite_3d.getLocalBounds().height / 2.0f << std::endl;
-	std::cout << (mWindowSize / 2u).x << " " << (mWindowSize / 2u).y << std::endl;
+	//std::cout << mSprite_3d.getLocalBounds().width / 2.0f << " " << mSprite_3d.getLocalBounds().height / 2.0f << std::endl;
+	//std::cout << (mWindowSize / 2u).x << " " << (mWindowSize / 2u).y << std::endl;
 	
 	// set the origin and position of the sprite 
 	mSprite_3d.setOrigin(sf::Vector2f(mSprite_3d.getLocalBounds().width, mSprite_3d.getLocalBounds().height) / 2.f);

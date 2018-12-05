@@ -17,17 +17,17 @@ using std::endl;
 using std::vector;
 using std::fstream;
 
+typedef enum TREE_HEALTH
+{
+	HEALTHY = 1,
+	UNHEALTHY,
+	NEUTRAL
+}_TREE_HEALTH_;
+
+
 class Tree : public sf::RectangleShape
 {
 public:
-
-	typedef enum TREE_HEALTH
-	{
-		HEALTHY = 1,
-		UNHEALTHY,
-		NEUTRAL
-	}_TREE_HEALTH_;
-
 
 	Tree();
 	Tree(const float x_value, const float y_value);
@@ -53,12 +53,13 @@ public:
 	double GetRAngle();
 	double GetLAngle();
 	sf::Vector2f GetStartPoint();
+
 	void setHealth(_TREE_HEALTH_ h);
 
+	int getNewlevel();
 	void RunTreeBuild();
-	int TestHEandUN();
-	void TestStep();
 	void Render(sf::RenderWindow& window);
+	void incremenetLevel();
 
 protected:
 	void runIt();
@@ -75,6 +76,7 @@ private:
 	double Length;
 	sf::Vector2f StartPoint;
 	int NumberLoop;
+	int currentLevel;
 	_TREE_HEALTH_ treeHealth;
 
 	int HealthTrack[9];

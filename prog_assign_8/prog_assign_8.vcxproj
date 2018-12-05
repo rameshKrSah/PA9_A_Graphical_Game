@@ -158,6 +158,8 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeSimClicks.cpp" />
+    <ClCompile Include="TreeStats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
@@ -168,6 +170,8 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="TreeSimClicks.h" />
+    <ClInclude Include="TreeStats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
