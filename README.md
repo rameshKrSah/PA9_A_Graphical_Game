@@ -10,10 +10,10 @@ The team members are:
 
 Some screenshots of the game:
 
-![menu](menu.PNG "main menu")
+![menu](prog_assign_8/menu.PNG "main menu")
 
 
-![play](play.PNG "playing")
+![play](prog_assign_8/play.PNG "playing")
 
 
-![dead](dead.PNG "dead tree")
+![dead](prog_assign_8/dead.PNG "dead tree")
