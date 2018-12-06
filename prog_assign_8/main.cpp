@@ -36,11 +36,10 @@
 #include <ctime>
 #include <iostream>
 
-#include "Points.h"
 #include "Terrain.h"
 #include "Background.h"
 #include "Tree.h"
-#include "TreeSimClicks.h"
+#include "TreeStats.h"
 
 unsigned static int const width = 1000;
 unsigned static int const height = 600;
@@ -65,8 +64,11 @@ void backgroundMusicStop(sf::Music & sound)
 
 int main() 
 {
+	// create the window 
+	sf::RenderWindow window(sf::VideoMode(width, height), "Tree Simulator", sf::Style::Close);
+	sf::View view;
+
 	int start = 1;
-	int rules = 0;
 	int play = 0;
 
 	// clock 
@@ -112,39 +114,26 @@ int main()
 	}
 
 	//Main Menu
-	sf::Text text1, text2, text3, text4;
-	
+	sf::Text text1, text3, text4;
 	
 	text1.setFont(font);
 	text1.setString("Welcome to TREE SIMULATOR Cs 122");
 	text1.setCharacterSize(32);
 	text1.setFillColor(sf::Color::Red);
 	text1.setStyle(sf::Text::Underlined);
-
-	text2.setFont(font);
-	text2.setLineSpacing(3);
-	text2.setString("\nMain Menu\n");
-	text2.setCharacterSize(24);
-	text2.setFillColor(sf::Color::White);
-	text2.setStyle(sf::Text::Underlined);
-	text2.setLineSpacing(2);
-
+	text1.setPosition(window.getSize().x / 4, 0);
 
 	text4.setFont(font);
-	text4.setString("\n \n \n \n!!!Game Rules!!! \n\nLeft click on the terrain to plant a tree. \n\nIt will grow to a little plant and eventually to a tree. \n\nKeys to use: \n\nW  To  water \n\nF  To  fertilize");
+	text4.setString("\n \n \n \nPlant a tree with left mouse click and nurture it.\n\nIt will grow to a little plant and eventually to a tree.\n\n\nKeys to use:\n\nW :: To  water\n\nF :: To  Fertilize");
 	text4.setCharacterSize(24);
 	text4.setFillColor(sf::Color::White);
 
 	text3.setFont(font);
 	text3.setLineSpacing(1);
-	text3.setString(" \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nTo Play : press Space   \n\nTo Exit : press Enter");
+	text3.setString(" \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nTo Play : press Space\n\nTo Reset : press BackSpase\n\nTo Exit : press Enter");
 	text3.setCharacterSize(24);
 	text3.setFillColor(sf::Color::White);
 
-
-	// create the window 
-	sf::RenderWindow window(sf::VideoMode(width, height), "Simplex Noise 2D visualisation", sf::Style::Close);
-	sf::View view;
 	
 	// game loop //
 	while (window.isOpen()) 
@@ -271,7 +260,6 @@ int main()
 		if (start == 1)
 		{
 			window.draw(text1);
-			window.draw(text2);
 			window.draw(text4);
 			window.draw(text3);
 		}
@@ -300,30 +288,3 @@ int main()
 
 	return EXIT_SUCCESS;
 }
-
-
-/*
-void r()
-{
-	std::vector<sf::Vertex> vertices;
-	int wi = 5;
-	int he = 10;
-
-	vertices.push_back(sf::Vertex(sf::Vector2f(10, 20), sf::Color::Green));
-	vertices.push_back(sf::Vertex(sf::Vector2f(10 + wi, 20), sf::Color::Green));
-	vertices.push_back(sf::Vertex(sf::Vector2f(10, 20 + he), sf::Color::Green));
-	vertices.push_back(sf::Vertex(sf::Vector2f(10 + wi, 20 + he), sf::Color::Green));
-
-	
-	int size = vertices.size();
-	static int i = 0;
-	while (size)
-	{
-		window.draw(&vertices[i], 4, sf::Quads);
-		size -= 4;
-		i += 4;
-	}
-
-}
-*/
-

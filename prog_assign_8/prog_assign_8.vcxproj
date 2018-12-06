@@ -149,28 +149,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
-    <ClCompile Include="cube.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="perlin.cpp" />
-    <ClCompile Include="Points.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="Sprite3d.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Tree.cpp" />
-    <ClCompile Include="TreeSimClicks.cpp" />
     <ClCompile Include="TreeStats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
-    <ClInclude Include="perlin.h" />
-    <ClInclude Include="Points.h" />
     <ClInclude Include="SimplexNoise.hpp" />
     <ClInclude Include="Sprite3d.hpp" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Tree.h" />
-    <ClInclude Include="TreeSimClicks.h" />
     <ClInclude Include="TreeStats.h" />
   </ItemGroup>
   <ItemGroup>
